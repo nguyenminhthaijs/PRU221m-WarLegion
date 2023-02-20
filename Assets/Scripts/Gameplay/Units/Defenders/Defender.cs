@@ -2,6 +2,10 @@
 {
     public class Defender : Unit
     {
+        public Defender(int level) : base(level)
+        {
+        }
+
         public int UpGradedGold { get; set; }
     }
 }

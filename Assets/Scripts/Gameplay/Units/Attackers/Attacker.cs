@@ -6,6 +6,10 @@ namespace Assets.Scripts.Gameplay.Units
     {
         private Defender currentTarget;
 
+        public Attacker(int level) : base(level)
+        {
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             // Check if the collider belongs to a Defender unit
@@ -42,7 +46,7 @@ namespace Assets.Scripts.Gameplay.Units
         protected override void Die()
         {
             // If the current target dies, stop attacking it
-            if (currentTarget != null && currentTarget.hitPoints <= 0)
+            if (currentTarget != null && currentTarget.HitPoints <= 0)
             {
                 currentTarget = null;
             }
