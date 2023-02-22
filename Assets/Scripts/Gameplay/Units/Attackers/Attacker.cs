@@ -10,7 +10,7 @@ namespace Assets.Scripts.Gameplay.Units
         {
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerStay2D(Collider2D other)
         {
             // Check if the collider belongs to a Defender unit
             Defender defender = other.GetComponent<Defender>();

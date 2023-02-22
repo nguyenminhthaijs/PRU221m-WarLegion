@@ -1,16 +1,24 @@
+using Assets.Scripts.Gameplay.Units;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour
 {
     public int level;
 
     private float damage;
     private float hitPoints;
     private float speed;
+    private float attackRange;
+    private AttackType attackType;
+    private float coolDown;
+    protected Timer cooldownTimerBullet;
 
     private float baseDamage;
     private float baseHitPoints;
     private float baseSpeed;
+
+    [SerializeField]
+    GameObject AttackShape;
 
     public Unit(int level)
     {
@@ -24,6 +32,9 @@ public class Unit : MonoBehaviour
     public float BaseDamage { get => baseDamage; set => baseDamage = value; }
     public float BaseHitPoints { get => baseHitPoints; set => baseHitPoints = value; }
     public float BaseSpeed { get => baseSpeed; set => baseSpeed = value; }
+    public float AttackRange { get => attackRange; set => attackRange = value; }
+    public float CoolDown { get => coolDown; set => coolDown = value; }
+    public AttackType AttackType { get => attackType; set => attackType = value; }
 
     public virtual void Initialize(float damageMultiplier, float hitpointMultiplier, float speedMultiplier)
     {
@@ -35,7 +46,19 @@ public class Unit : MonoBehaviour
 
     public virtual void Attack(Unit target)
     {
-        target.TakeDamage(damage);
+        //if unit are not in attacking state
+        if (!cooldownTimerBullet.Running)
+        {
+            Debug.Log("Shoot");
+            cooldownTimerBullet.Duration = 1;
+            cooldownTimerBullet.Run();
+            DisplayAttackShape(target.transform.position);
+        }
+    }
+    public virtual void DisplayAttackShape(Vector2 direction)
+    {
+        GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
+
     }
 
     public virtual void TakeDamage(float amount)
