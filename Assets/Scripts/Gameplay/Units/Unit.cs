@@ -21,7 +21,7 @@ public abstract class Unit : MonoBehaviour
 
 
     [SerializeField]
-    GameObject AttackShape;
+    protected GameObject AttackShape;
 
     public Unit(int level)
     {
