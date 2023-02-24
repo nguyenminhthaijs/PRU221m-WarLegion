@@ -5,8 +5,13 @@ using UnityEngine.AI;
 
 public class Move : MonoBehaviour
 {
-    [SerializeField] public Transform movePos;
-    [SerializeField] public NavMeshAgent navMeshAgent;
+    [SerializeField] Transform movePos;
+    [SerializeField] NavMeshAgent navMeshAgent;
+    public void Start()
+    {
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
+    }
     private void Update()
     {
         navMeshAgent.destination = movePos.position;
