@@ -75,10 +75,17 @@ public abstract class Unit : MonoBehaviour
             Debug.Log("AttackShape is a Ranged");
             //Behaviour of Ranged class write here
             //For eg
-
+            //radius = gameobj.getComponent<CircleCollider2D>().radius
             //shoot from the current game object position
             var atkShape = GameObject.Instantiate(AttackShape, gameObject.transform.position, Quaternion.identity);
+            var radius = 10; // get circle collider here
+            var rangedAttack = atkShape.GetComponent<RangedAttack>();
+            if (rangedAttack != null)
+            {
+                rangedAttack.Range = radius;
+            }
             atkShape.transform.rotation = rotation;
+
         }
 
 
