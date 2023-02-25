@@ -1,6 +1,4 @@
 using Assets.Scripts.Gameplay.Units;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Archery : Defender
@@ -31,5 +29,6 @@ public class Archery : Defender
     // Update is called once per frame
     void Update()
     {
+
     }
 }

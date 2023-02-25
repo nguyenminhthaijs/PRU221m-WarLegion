@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,9 +11,10 @@ public class AgentMoventMent : MonoBehaviour
     NavMeshAgent agent;
     void Awake()
     {
-        agent= GetComponent<NavMeshAgent>();
-        agent.updateRotation= false;
-        agent.updateUpAxis= false;
+        target = gameObject.transform.position;
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     // Update is called once per frame
@@ -29,14 +28,23 @@ public class AgentMoventMent : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log(target.x+ " " + target.y+ " " + target.z);
+            Debug.Log(target.x + " " + target.y + " " + target.z);
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             agent.SetDestination(target);
         }
-
+    }
+    public bool CheckIsMoving()
+    {
+        //Debug.Log(Vector2.Distance(new Vector2(target.x, target.y), new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)));
+        if (Vector2.Distance(new Vector2(target.x, target.y), new Vector2(gameObject.transform.position.x, gameObject.transform.position.y)) <= 0.1f)
+        {
+            return false;
+        }
+        return true;
+        return false;
     }
     void SetAgentPosition()
     {
-       
+
     }
 }
