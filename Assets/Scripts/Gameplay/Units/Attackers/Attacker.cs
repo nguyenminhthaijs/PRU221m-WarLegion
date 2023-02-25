@@ -39,7 +39,7 @@ namespace Assets.Scripts.Gameplay.Units
             Defender defender = target as Defender;
             if (defender != null)
             {
-                base.Attack(target);
+                //base.Attack(target);
             }
         }
 

@@ -62,10 +62,11 @@ public abstract class Unit : MonoBehaviour
     {
         Vector2 directionTarget = direction - new Vector2(transform.position.x, transform.position.y);
         float angle = Mathf.Atan2(directionTarget.y, directionTarget.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        
 
         if (AttackShape.GetComponent<MeleAttack>() is MeleAttack)
         {
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             Debug.Log("AttackShape is a MeleAttack");
             var atkShape = GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
             atkShape.transform.rotation = rotation;
@@ -73,19 +74,22 @@ public abstract class Unit : MonoBehaviour
         else if (AttackShape.GetComponent<RangedAttack>() is RangedAttack)
         {
             Debug.Log("AttackShape is a Ranged");
+            Quaternion rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
             //Behaviour of Ranged class write here
             //For eg
             //radius = gameobj.getComponent<CircleCollider2D>().radius
             //shoot from the current game object position
             var atkShape = GameObject.Instantiate(AttackShape, gameObject.transform.position, Quaternion.identity);
-            var radius = 10; // get circle collider here
+            //var radius = 10; // get circle collider here
             var rangedAttack = atkShape.GetComponent<RangedAttack>();
             if (rangedAttack != null)
             {
-                rangedAttack.Range = radius;
+                rangedAttack.Range = GetComponent<CircleCollider2D>().radius; ;
             }
+            Rigidbody2D rb2d = atkShape.GetComponent<Rigidbody2D>();
+            rangedAttack.sourceDirection = transform.position;
+            rb2d.AddForce(directionTarget.normalized*3, ForceMode2D.Impulse);
             atkShape.transform.rotation = rotation;
-
         }
 
 

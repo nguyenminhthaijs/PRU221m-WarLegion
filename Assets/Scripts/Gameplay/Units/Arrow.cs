@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    [SerializeField]
-    public GameObject archery;
+    public Vector2 sourceDirection;
     // Update is called once per frame
-    private CircleCollider2D collider;
+    public float radius;
     void Start()
     {
-        collider = archery.GetComponent<CircleCollider2D>();
 
     }
 
     private void Update()
     {
-        if (Vector2.Distance(archery.transform.position, transform.position) - collider.radius > 0)
+        if (Vector2.Distance(sourceDirection, transform.position) - radius > 0)
         {
             Destroy(gameObject);
         }
