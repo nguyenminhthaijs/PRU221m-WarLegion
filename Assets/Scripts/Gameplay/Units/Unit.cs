@@ -52,8 +52,6 @@ public abstract class Unit : MonoBehaviour
         //if unit are not in attacking state
         if (!cooldownTimerBullet.Running)
         {
-
-
             Debug.Log("Shoot");
             cooldownTimerBullet.Duration = 1;
             cooldownTimerBullet.Run();
@@ -66,8 +64,23 @@ public abstract class Unit : MonoBehaviour
         float angle = Mathf.Atan2(directionTarget.y, directionTarget.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        var atkShape = GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
-        atkShape.transform.rotation = rotation;
+        if (AttackShape.GetComponent<MeleAttack>() is MeleAttack)
+        {
+            Debug.Log("AttackShape is a MeleAttack");
+            var atkShape = GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
+            atkShape.transform.rotation = rotation;
+        }
+        else if (AttackShape.GetComponent<RangedAttack>() is RangedAttack)
+        {
+            Debug.Log("AttackShape is a Ranged");
+            //Behaviour of Ranged class write here
+            //For eg
+
+            //shoot from the current game object position
+            var atkShape = GameObject.Instantiate(AttackShape, gameObject.transform.position, Quaternion.identity);
+            atkShape.transform.rotation = rotation;
+        }
+
 
     }
 
