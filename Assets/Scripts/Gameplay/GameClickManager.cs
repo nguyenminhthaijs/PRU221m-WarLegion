@@ -18,7 +18,7 @@ public class GameClickManager : MonoBehaviour
                 GameObject target = hit.collider.gameObject;
                 Debug.Log(target);
 
-                //N?u (target.CompareTag("Attacker") || target.CompareTag("Defender")) thì m?i x? lý( cái này sau ae code hoàn ch?nh b? sung sau )
+                //N?u (target.CompareTag("Attacker") || target.CompareTag("Defender")) thì m?ii x? lý( cái này sau ae code hoàn ch?nh b? sung sau )
                 // Ki?m tra n?u ??i t??ng ?ã ???c ch?n tr??c ?ó và không ph?i là ??i t??ng hi?n t?i
                 if (selectedTarget != null && selectedTarget != target) 
                 {
@@ -47,7 +47,8 @@ public class GameClickManager : MonoBehaviour
     }
     GameObject getGameChildObject(GameObject target)
     {
-        Transform parentTransform = target.transform; // l?y Transform c?a ??i t??ng cha
+        // l?y Transform c?a ??i t??ng cha
+        Transform parentTransform = target.transform; 
         Transform childTransform = parentTransform.Find("Canvas");
         GameObject childGameObject = childTransform.gameObject;
         return childGameObject;
