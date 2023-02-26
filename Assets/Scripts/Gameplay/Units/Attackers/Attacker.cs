@@ -14,22 +14,26 @@ namespace Assets.Scripts.Gameplay.Units
         {
             // Check if the collider belongs to a Defender unit
             Defender defender = other.GetComponent<Defender>();
-            if (defender != null && (currentTarget == null || defender == currentTarget))
-            {
-                // Attack the Defender
-                currentTarget = defender;
-                Attack(defender);
-            }
+            if (other.GetComponent<Defender>() is Defender)
+                if (defender != null && (currentTarget == null || defender == currentTarget))
+                {
+                    // Attack the Defender
+                    currentTarget = defender;
+                    Attack(defender);
+                }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             // Check if the collider belonged to the current target
             Defender defender = other.GetComponent<Defender>();
-            if (defender != null && defender == currentTarget)
+            if (other.GetComponent<Defender>() is Defender)
             {
-                // Stop attacking the current target
-                currentTarget = null;
+                if (defender != null && defender == currentTarget)
+                {
+                    // Stop attacking the current target
+                    currentTarget = null;
+                }
             }
         }
 

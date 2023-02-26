@@ -1,9 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class RangedAttack : MonoBehaviour
+public class Arrow : MonoBehaviour
 {
-    public float Range { get; set; }
     public Vector2 sourceDirection;
+    // Update is called once per frame
+    public float radius;
+    // update my email
     void Start()
     {
 
@@ -11,7 +15,7 @@ public class RangedAttack : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(sourceDirection, transform.position) - Range > 0)
+        if (Vector2.Distance(sourceDirection, transform.position) - radius > 0)
         {
             Destroy(gameObject);
         }

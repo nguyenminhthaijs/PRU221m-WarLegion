@@ -21,7 +21,7 @@ public abstract class Unit : MonoBehaviour
 
 
     [SerializeField]
-    GameObject AttackShape;
+    protected GameObject AttackShape;
 
     public Unit(int level)
     {
@@ -49,11 +49,13 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Attack(Unit target)
     {
+        if (gameObject.GetComponent<AgentMoventMent>().CheckIsMoving())
+        {
+            return;
+        };
         //if unit are not in attacking state
         if (!cooldownTimerBullet.Running)
         {
-
-
             Debug.Log("Shoot");
             cooldownTimerBullet.Duration = 1;
             cooldownTimerBullet.Run();
@@ -62,12 +64,42 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual void DisplayAttackShape(Vector2 direction)
     {
+
         Vector2 directionTarget = direction - new Vector2(transform.position.x, transform.position.y);
         float angle = Mathf.Atan2(directionTarget.y, directionTarget.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        var atkShape = GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
-        atkShape.transform.rotation = rotation;
+
+        if (AttackShape.GetComponent<MeleAttack>() is MeleAttack)
+        {
+            if (Vector2.Distance(new Vector2(transform.position.x, transform.position.y), direction) <= AttackRange)
+            {
+                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                Debug.Log("AttackShape is a MeleAttack");
+                var atkShape = GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
+                atkShape.transform.rotation = rotation;
+            }
+        }
+        else if (AttackShape.GetComponent<RangedAttack>() is RangedAttack)
+        {
+            Debug.Log("AttackShape is a Ranged");
+            Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            //Behaviour of Ranged class write here
+            //For eg
+            //radius = gameobj.getComponent<CircleCollider2D>().radius
+            //shoot from the current game object position
+            var atkShape = GameObject.Instantiate(AttackShape, gameObject.transform.position, Quaternion.identity);
+            //var radius = 10; // get circle collider here
+            var rangedAttack = atkShape.GetComponent<RangedAttack>();
+            if (rangedAttack != null)
+            {
+                rangedAttack.Range = GetComponent<CircleCollider2D>().radius; ;
+            }
+            Rigidbody2D rb2d = atkShape.GetComponent<Rigidbody2D>();
+            rangedAttack.sourceDirection = transform.position;
+            rb2d.AddForce(directionTarget.normalized * 3, ForceMode2D.Impulse);
+            atkShape.transform.rotation = rotation;
+        }
+
 
     }
 
