@@ -96,6 +96,7 @@ public abstract class Unit : MonoBehaviour
             }
             Rigidbody2D rb2d = atkShape.GetComponent<Rigidbody2D>();
             rangedAttack.sourceDirection = transform.position;
+            rangedAttack.targetDirection = direction;
             rb2d.AddForce(directionTarget.normalized * 3, ForceMode2D.Impulse);
             atkShape.transform.rotation = rotation;
         }
