@@ -7,7 +7,7 @@ public class AgentMoventMent : MonoBehaviour
 
 
     Vector3 target;
-    bool isMoving = false;
+    public bool isMoving = false;
 
     NavMeshAgent agent;
     void Awake()
@@ -21,8 +21,8 @@ public class AgentMoventMent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetTargetPosition();
-        SetAgentPosition();
+        //SetTargetPosition();
+        //SetAgentPosition();
 
         // Check if the agent has reached the target position
         if (agent.remainingDistance <= agent.stoppingDistance)
@@ -34,17 +34,28 @@ public class AgentMoventMent : MonoBehaviour
             isMoving = true;
         }
     }
-    void SetTargetPosition()
+    public void SetTargetPosition()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log(target.x + " " + target.y + " " + target.z);
+            //Debug.Log(target.x + " " + target.y + " " + target.z);
             target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             agent.SetDestination(target);
 
             isMoving = true;
-
         }
+    }
+    public void StopMoving()
+    {
+        agent.isStopped = true;
+    }
+    public void ContinueMoving()
+    {
+        agent.isStopped = false;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Debug.Log("Find enemies");
     }
     public bool CheckIsMoving()
     {

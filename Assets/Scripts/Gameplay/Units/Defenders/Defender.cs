@@ -5,7 +5,7 @@ namespace Assets.Scripts.Gameplay.Units
     public class Defender : Unit
     {
 
-        private Attacker currentTarget;
+        public Attacker currentTarget;
         public Defender(int level) : base(level)
         {
         }
@@ -13,10 +13,23 @@ namespace Assets.Scripts.Gameplay.Units
         public void OnTriggerStay2D(Collider2D other)
         {
             // Check if the collider belongs to a Defender unit
+
+            if (currentTarget != null && currentTarget.tag == "attackers")
+            {
+                AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
+                agent.StopMoving();
+                gameObject.GetComponent<AgentMoventMent>().isMoving = false;
+            }
+            else
+            {
+                AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
+                agent.ContinueMoving();
+
+            }
             Attacker attacker = other.GetComponent<Attacker>();
             if (attacker != null && (currentTarget == null || attacker == currentTarget))
             {
-                currentTarget = attacker;
+                //currentTarget = attacker;
                 Attack(attacker);
             }
         }
