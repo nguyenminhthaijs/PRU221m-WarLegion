@@ -3,29 +3,31 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    public int level;
+    private int level = 1;
 
     private float damage;
     private float hitPoints;
     private float speed;
     private float attackRange;
+    private float selectedRange;
     private AttackType attackType;
     private float coolDown;
     protected Timer cooldownTimerBullet;
+
 
     private float baseDamage;
     private float baseHitPoints;
     private float baseSpeed;
 
-    Vector2 thrustDirection = new Vector2(1, 0);
-
+    CircleCollider2D atkRangeCollider;
+    CircleCollider2D selectedRangeCollider;
 
     [SerializeField]
     protected GameObject AttackShape;
 
     public Unit(int level)
     {
-        this.level = level;
+        this.Level = level;
     }
 
     public float Damage { get => damage; set => damage = value; }
@@ -38,12 +40,25 @@ public abstract class Unit : MonoBehaviour
     public float AttackRange { get => attackRange; set => attackRange = value; }
     public float CoolDown { get => coolDown; set => coolDown = value; }
     public AttackType AttackType { get => attackType; set => attackType = value; }
+    public float SelectedRange { get => selectedRange; set => selectedRange = value; }
+    public int Level { get => level; set => level = value; }
 
     public virtual void Initialize(float damageMultiplier, float hitpointMultiplier, float speedMultiplier)
     {
-        Damage = BaseDamage * damageMultiplier * level;
-        HitPoints = BaseHitPoints * hitpointMultiplier * level;
-        Speed = BaseSpeed * speedMultiplier * level;
+        Damage = BaseDamage * damageMultiplier * Level;
+        HitPoints = BaseHitPoints * hitpointMultiplier * Level;
+        Speed = BaseSpeed * speedMultiplier * Level;
+
+        cooldownTimerBullet = gameObject.AddComponent<Timer>();
+
+        selectedRangeCollider = gameObject.AddComponent<CircleCollider2D>();
+        atkRangeCollider = gameObject.AddComponent<CircleCollider2D>();
+
+        atkRangeCollider.radius = AttackRange;
+        selectedRangeCollider.radius = SelectedRange;
+
+        atkRangeCollider.isTrigger = true;
+        selectedRangeCollider.isTrigger = false;
     }
 
 
@@ -56,7 +71,7 @@ public abstract class Unit : MonoBehaviour
         //if unit are not in attacking state
         if (!cooldownTimerBullet.Running)
         {
-            Debug.Log("Shoot");
+            //Debug.Log("Shoot");
             cooldownTimerBullet.Duration = 1;
             cooldownTimerBullet.Run();
             DisplayAttackShape(target.transform.position);
@@ -81,7 +96,7 @@ public abstract class Unit : MonoBehaviour
         }
         else if (AttackShape.GetComponent<RangedAttack>() is RangedAttack)
         {
-            Debug.Log("AttackShape is a Ranged");
+            //Debug.Log("AttackShape is a Ranged");
             Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
             //Behaviour of Ranged class write here
             //For eg
@@ -92,13 +107,19 @@ public abstract class Unit : MonoBehaviour
             var rangedAttack = atkShape.GetComponent<RangedAttack>();
             if (rangedAttack != null)
             {
-                rangedAttack.Range = GetComponent<CircleCollider2D>().radius; ;
+
+                //get radius of "attack range" collider
+                rangedAttack.Range = GetComponents<CircleCollider2D>()[1].radius;
             }
             Rigidbody2D rb2d = atkShape.GetComponent<Rigidbody2D>();
             rangedAttack.sourceDirection = transform.position;
             rangedAttack.targetDirection = direction;
+            rangedAttack.sourceGameObject = gameObject;
+            rangedAttack.Damage = Damage;
+
             rb2d.AddForce(directionTarget.normalized * 3, ForceMode2D.Impulse);
             atkShape.transform.rotation = rotation;
+
         }
 
 
@@ -106,8 +127,9 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void TakeDamage(float amount)
     {
-        hitPoints -= amount;
-        if (hitPoints <= 0)
+        HitPoints -= amount;
+        Debug.Log(HitPoints);
+        if (HitPoints <= 0)
         {
             Die();
         }
@@ -121,7 +143,9 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void LevelUp()
     {
-        level++;
+        Level++;
     }
+
+
 }
 
