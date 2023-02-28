@@ -12,6 +12,20 @@ namespace Assets.Scripts.Gameplay.Units
 
         private void OnTriggerStay2D(Collider2D other)
         {
+
+            //VinhNT add new
+            //if (currentTarget != null && currentTarget.tag == "defenders")
+            //{
+            //    AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
+            //    agent.StopMoving();
+            //    gameObject.GetComponent<AgentMoventMent>().isMoving = false;
+            //}
+            //else
+            //{
+            //    AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
+            //    agent.ContinueMoving();
+            //}
+
             // Check if the collider belongs to a Defender unit
             Defender defender = other.GetComponent<Defender>();
             if (other.GetComponent<Defender>() is Defender)
@@ -43,6 +57,7 @@ namespace Assets.Scripts.Gameplay.Units
             Defender defender = target as Defender;
             if (defender != null)
             {
+                Debug.Log(target);
                 base.Attack(target);
             }
         }

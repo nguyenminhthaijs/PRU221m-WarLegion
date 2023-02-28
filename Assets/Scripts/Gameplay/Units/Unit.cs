@@ -8,7 +8,7 @@ public abstract class Unit : MonoBehaviour
     private float damage;
     private float hitPoints;
     private float speed;
-    private float attackRange;
+    protected float attackRange;
     private float selectedRange;
     private AttackType attackType;
     private float coolDown;
@@ -109,7 +109,8 @@ public abstract class Unit : MonoBehaviour
             {
 
                 //get radius of "attack range" collider
-                rangedAttack.Range = GetComponents<CircleCollider2D>()[1].radius;
+                //rangedAttack.Range = GetComponents<CircleCollider2D>()[1].radius;
+                rangedAttack.Range = atkRangeCollider.radius;
             }
             Rigidbody2D rb2d = atkShape.GetComponent<Rigidbody2D>();
             rangedAttack.sourceDirection = transform.position;
