@@ -64,10 +64,14 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Attack(Unit target)
     {
-        if (gameObject.GetComponent<AgentMoventMent>().CheckIsMoving())
+        // Tranh bao loi vi attracker khong co script AgentMoventMent
+        if (gameObject.GetComponent<AgentMoventMent>() != null)
         {
-            return;
-        };
+            if (gameObject.GetComponent<AgentMoventMent>().CheckIsMoving())
+            {
+                return;
+            }
+        }
         //if unit are not in attacking state
         if (!cooldownTimerBullet.Running)
         {

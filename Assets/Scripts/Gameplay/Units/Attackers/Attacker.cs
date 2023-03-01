@@ -16,8 +16,14 @@ namespace Assets.Scripts.Gameplay.Units
 
             if (currentTarget != null && currentTarget.tag == "defenders")
             {
+                Debug.Log("Ok");
                 AgentMoventMentMonster agent = gameObject.GetComponent<AgentMoventMentMonster>();
-                agent.SetTargetPosition(other.gameObject);
+                // trien khai cach 1 : target luon la currentTarget ( Cham thang nao thi duoi theo danh cho chet bang dc )
+                agent.SetTargetPosition(currentTarget.gameObject);
+                // trien khai cach 2 : trong combat cham thang nao thi danh thang do
+                //agent.SetTargetPosition(other.gameObject);
+                //currentTarget = other.gameObject.GetComponent<Defender>();
+                agent.isAccessMovingTower = false;
                 // Đủ tầm đánh mới Stop 
                 if (Vector2.Distance(transform.position, currentTarget.transform.position) <= attackRange)
                 {
@@ -53,7 +59,12 @@ namespace Assets.Scripts.Gameplay.Units
                 {
                     // Stop attacking the current target
                     Debug.Log("Out");
-                    currentTarget = null;
+                    // Neu Defender move khoi Attracker thi set lai target den vi tri Defender vua move
+                    AgentMoventMentMonster agent = gameObject.GetComponent<AgentMoventMentMonster>();
+                    agent.SetTargetPosition(currentTarget.gameObject);
+                    agent.ContinueMoving();
+                    agent.isAccessMovingTower = false;
+                    //currentTarget = null;
                 }
             }
         }
