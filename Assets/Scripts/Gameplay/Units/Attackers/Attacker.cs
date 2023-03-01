@@ -57,7 +57,7 @@ namespace Assets.Scripts.Gameplay.Units
             Defender defender = target as Defender;
             if (defender != null)
             {
-                Debug.Log(target);
+                //Debug.Log(target);
                 base.Attack(target);
             }
         }

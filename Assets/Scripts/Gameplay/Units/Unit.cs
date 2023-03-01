@@ -74,10 +74,10 @@ public abstract class Unit : MonoBehaviour
             //Debug.Log("Shoot");
             cooldownTimerBullet.Duration = 1;
             cooldownTimerBullet.Run();
-            DisplayAttackShape(target.transform.position);
+            DisplayAttackShape(target.transform.position, target);
         }
     }
-    public virtual void DisplayAttackShape(Vector2 direction)
+    public virtual void DisplayAttackShape(Vector2 direction, Unit target)
     {
 
         Vector2 directionTarget = direction - new Vector2(transform.position.x, transform.position.y);
@@ -92,6 +92,7 @@ public abstract class Unit : MonoBehaviour
                 Debug.Log("AttackShape is a MeleAttack");
                 var atkShape = GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
                 atkShape.transform.rotation = rotation;
+                target.TakeDamage(Damage);
             }
         }
         else if (AttackShape.GetComponent<RangedAttack>() is RangedAttack)
@@ -115,8 +116,10 @@ public abstract class Unit : MonoBehaviour
             Rigidbody2D rb2d = atkShape.GetComponent<Rigidbody2D>();
             rangedAttack.sourceDirection = transform.position;
             rangedAttack.targetDirection = direction;
-            rangedAttack.sourceGameObject = gameObject;
             rangedAttack.Damage = Damage;
+
+            //them target cho attack range 
+            rangedAttack.targetGameObject = target;
 
             rb2d.AddForce(directionTarget.normalized * 3, ForceMode2D.Impulse);
             atkShape.transform.rotation = rotation;
