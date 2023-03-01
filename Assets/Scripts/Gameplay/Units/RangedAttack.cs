@@ -1,4 +1,3 @@
-using Assets.Scripts.Gameplay.Units;
 using UnityEngine;
 
 public class RangedAttack : MonoBehaviour
@@ -6,7 +5,7 @@ public class RangedAttack : MonoBehaviour
     public float Range { get; set; }
     public Vector2 sourceDirection;
     public Vector2 targetDirection;
-    public GameObject sourceGameObject;
+    public Unit targetGameObject;
     public float Damage { get; set; }
 
     //boi vi game object co 2 collider
@@ -44,6 +43,7 @@ public class RangedAttack : MonoBehaviour
     {
         if (Vector2.Distance(transform.position, targetDirection) < 0.1)
         {
+            targetGameObject.GetComponent<Unit>().TakeDamage(Damage);
             Destroy(gameObject);
         }
     }
