@@ -11,21 +11,27 @@ namespace Assets.Scripts.Gameplay.Units
         }
 
         private void OnTriggerStay2D(Collider2D other)
-        {
+        {           
+            // Check if the collider belongs to a Defender unit
 
-            //VinhNT add new
-            //if (currentTarget != null && currentTarget.tag == "defenders")
-            //{
-            //    AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
-            //    agent.StopMoving();
-            //    gameObject.GetComponent<AgentMoventMent>().isMoving = false;
-            //}
-            //else
-            //{
-            //    AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
-            //    agent.ContinueMoving();
-            //}
-
+            if (currentTarget != null && currentTarget.tag == "defenders")
+            {
+                AgentMoventMentMonster agent = gameObject.GetComponent<AgentMoventMentMonster>();
+                agent.SetTargetPosition(other.gameObject);
+                // Đủ tầm đánh mới Stop 
+                if (Vector2.Distance(transform.position, currentTarget.transform.position) <= attackRange)
+                {
+                    Debug.Log("Da Dung");
+                    agent.StopMoving();
+                }
+            }
+            else
+            {
+                // Đánh chết defenders thì đi tiếp đến trụ 
+                AgentMoventMentMonster agent = gameObject.GetComponent<AgentMoventMentMonster>();
+                agent.isAccessMovingTower = true;
+                agent.ContinueMoving();
+            }
             // Check if the collider belongs to a Defender unit
             Defender defender = other.GetComponent<Defender>();
             if (other.GetComponent<Defender>() is Defender)
@@ -46,6 +52,7 @@ namespace Assets.Scripts.Gameplay.Units
                 if (defender != null && defender == currentTarget)
                 {
                     // Stop attacking the current target
+                    Debug.Log("Out");
                     currentTarget = null;
                 }
             }

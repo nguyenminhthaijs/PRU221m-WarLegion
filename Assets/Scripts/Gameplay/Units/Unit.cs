@@ -116,8 +116,7 @@ public abstract class Unit : MonoBehaviour
             Rigidbody2D rb2d = atkShape.GetComponent<Rigidbody2D>();
             rangedAttack.sourceDirection = transform.position;
             rangedAttack.targetDirection = direction;
-            rangedAttack.Damage = Damage;
-
+            rangedAttack.Damage = 0;
             //them target cho attack range 
             rangedAttack.targetGameObject = target;
 
