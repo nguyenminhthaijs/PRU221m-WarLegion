@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.Gameplay.Units;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitSpawner : MonoBehaviour
@@ -18,7 +16,7 @@ public class UnitSpawner : MonoBehaviour
     [SerializeField]
     GameObject prefabOrge;
 
-    public int StrengthPerWave{ get; set; }
+    public int StrengthPerWave { get; set; }
 
     public int CountWave { get; set; }
 
@@ -84,7 +82,7 @@ public class UnitSpawner : MonoBehaviour
             }
             // Tổng chỉ số sức mạnh của từng con, lấy tạm cái tầm đánh
             unit = Instance.GetComponent<Unit>();
-            float StrengthPerUnit = (unit.Damage+unit.HitPoints/2)+(1+unit.Speed/3);
+            float StrengthPerUnit = (unit.Damage + unit.HitPoints / 2) + (1 + unit.Speed / 3);
             AccumStrength += StrengthPerUnit;
             if (AccumStrength > StrengthPerWave) break;
         }
@@ -96,7 +94,7 @@ public class UnitSpawner : MonoBehaviour
         Harpy harpy = prefabHarpy.GetComponent<Harpy>();
         //  Orge orge = prefabOrge.GetComponent<Orge>();
         //  Mage mage = prefabMage.GetComponent<Mage>();
-        banshee.Damage = banshee.Damage*(1 + Banshee.damagePer);
+        banshee.Damage = banshee.Damage * (1 + Banshee.damagePer);
         banshee.HitPoints = banshee.HitPoints * (1 + Banshee.hitpointsPer);
         banshee.Speed = banshee.Speed * (1 + Banshee.speedPer);
 

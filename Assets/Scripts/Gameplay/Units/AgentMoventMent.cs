@@ -47,11 +47,23 @@ public class AgentMoventMent : MonoBehaviour
     }
     public void StopMoving()
     {
-        agent.isStopped = true;
+        if (gameObject != null)
+            agent.isStopped = true;
     }
     public void ContinueMoving()
     {
-        agent.isStopped = false;
+        try
+        {
+            if (gameObject != null)
+                agent.isStopped = false;
+            Debug.Log(gameObject);
+
+        }
+        catch
+        {
+            Debug.Log(gameObject);
+        }
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

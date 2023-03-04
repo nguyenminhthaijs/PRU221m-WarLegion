@@ -23,14 +23,15 @@ namespace Assets.Scripts.Gameplay.Units
             else
             {
                 AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
-                agent.ContinueMoving();
+                if (HitPoints > 0)
+                    agent.ContinueMoving();
             }
             Attacker attacker = other.GetComponent<Attacker>();
             if (attacker != null && (currentTarget == null || attacker == currentTarget))
             {
                 //currentTarget = attacker;
                 // đến tầm mới bắn
-                if(Vector2.Distance(transform.position, attacker.transform.position) <= attackRange)
+                if (Vector2.Distance(transform.position, attacker.transform.position) <= attackRange)
                 {
                     Attack(attacker);
                 }
