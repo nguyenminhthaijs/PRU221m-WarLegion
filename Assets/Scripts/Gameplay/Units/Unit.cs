@@ -99,6 +99,15 @@ public abstract class Unit : MonoBehaviour
                 target.TakeDamage(Damage);
             }
         }
+        if (AttackShape.GetComponent<AOEAttack>() is AOEAttack)
+        {
+              
+                Instantiate(AttackShape, transform.position, Quaternion.identity);
+              
+             
+            
+        }
+ 
         else if (AttackShape.GetComponent<RangedAttack>() is RangedAttack)
         {
             //Debug.Log("AttackShape is a Ranged");
