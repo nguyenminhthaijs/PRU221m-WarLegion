@@ -6,7 +6,7 @@ using UnityEngine;
 public class Monitor : Attacker
 {
     // Start is called before the first frame update
-    public static float damagePer = 0.4f;
+    public static float damagePer = 2f;
     public static float hitpointsPer = 0.6f;
     public static float speedPer = 0.1f;
 

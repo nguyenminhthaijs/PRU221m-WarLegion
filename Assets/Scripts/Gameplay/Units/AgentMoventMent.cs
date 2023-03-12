@@ -56,12 +56,12 @@ public class AgentMoventMent : MonoBehaviour
         {
             if (gameObject != null)
                 agent.isStopped = false;
-            Debug.Log(gameObject);
+           // Debug.Log(gameObject);
 
         }
         catch
         {
-            Debug.Log(gameObject);
+         //   Debug.Log(gameObject);
         }
 
     }

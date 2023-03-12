@@ -16,7 +16,7 @@ namespace Assets.Scripts.Gameplay.Units
 
             if (currentTarget != null && currentTarget.tag == "defenders")
             {
-                Debug.Log("Ok");
+               // Debug.Log("Ok");
                 AgentMoventMentMonster agent = gameObject.GetComponent<AgentMoventMentMonster>();
                 // trien khai cach 1 : target luon la currentTarget ( Cham thang nao thi duoi theo danh cho chet bang dc )
                 agent.SetTargetPosition(currentTarget.gameObject);
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Gameplay.Units
                 // Đủ tầm đánh mới Stop 
                 if (Vector2.Distance(transform.position, currentTarget.transform.position) <= attackRange)
                 {
-                    Debug.Log("Da Dung");
+                   // Debug.Log("Da Dung");
                     agent.StopMoving();
                 }
             }

@@ -144,7 +144,7 @@ public abstract class Unit : MonoBehaviour
     public virtual void TakeDamage(float amount)
     {
         HitPoints -= amount;
-        Debug.Log(HitPoints);
+     //  Debug.Log(HitPoints);
         if (HitPoints <= 0)
         {
             Die();

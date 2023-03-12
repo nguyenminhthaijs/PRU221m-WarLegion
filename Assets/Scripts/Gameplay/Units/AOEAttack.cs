@@ -1,3 +1,4 @@
+﻿using Assets.Scripts.Gameplay.Units;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,37 +10,42 @@ public class AOEAttack : MonoBehaviour
 
     Timer existTime;
     float damage = 10f;
- 
 
+    public float radius = 5f;
     void Start()
     {
-        Debug.Log("attack");
+     //   Debug.Log("attack");
         existTime = gameObject.AddComponent<Timer>();
         existTime.Duration = 2f;
         existTime.Run();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+        Debug.Log("att");
+        if (other.gameObject.CompareTag("defenders")) // Xác định va chạm với Game Object có nhãn "Enemy"
         {
-            Collider[] colliders = Physics.OverlapSphere(hit.point, damage);
-            foreach (Collider collider in colliders)
+            Debug.Log("att");
+            Vector3 explosionPos = transform.position; // Lấy vị trí của Prefab AOE attack
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, radius); // Lấy danh sách các Collider trong bán kính của vùng AOE
+
+            foreach (Collider2D hit in colliders) // Duyệt danh sách các Collider và gây ảnh hưởng AOE damage cho từng Game Object
             {
-                if (collider.CompareTag("defenders"))
+                if (hit.gameObject.CompareTag("defenders"))
                 {
-                    Unit enemyHealth = collider.GetComponent<Unit>();
-                    if (enemyHealth != null)
+                    Defender enemy = hit.GetComponent<Defender>(); // Lấy component Enemy từ Game Object
+                    if (enemy != null) // Nếu Game Object có component Enemy thì gây sát thương
                     {
-                        enemyHealth.TakeDamage(damage);
+                        Debug.Log("getdame");
+                        enemy.TakeDamage(damage);
                     }
                 }
             }
-           
         }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+       
         if (existTime.Finished)
         {
             Destroy(gameObject);
