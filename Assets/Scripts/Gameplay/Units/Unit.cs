@@ -93,7 +93,7 @@ public abstract class Unit : MonoBehaviour
             if (Vector2.Distance(new Vector2(transform.position.x, transform.position.y), direction) <= AttackRange)
             {
                 Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                Debug.Log("AttackShape is a MeleAttack");
+                //Debug.Log("AttackShape is a MeleAttack");
                 var atkShape = GameObject.Instantiate(AttackShape, direction, Quaternion.identity);
                 atkShape.transform.rotation = rotation;
                 target.TakeDamage(Damage);
@@ -135,7 +135,7 @@ public abstract class Unit : MonoBehaviour
     public virtual void TakeDamage(float amount)
     {
         HitPoints -= amount;
-        Debug.Log(HitPoints);
+        //Debug.Log(HitPoints);
         if (HitPoints <= 0)
         {
             Die();
