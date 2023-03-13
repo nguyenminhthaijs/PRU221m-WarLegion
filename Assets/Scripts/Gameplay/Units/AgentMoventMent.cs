@@ -45,6 +45,14 @@ public class AgentMoventMent : MonoBehaviour
             isMoving = true;
         }
     }
+
+    public void SetTargetWhenStaying(GameObject target)
+    {
+        agent.SetDestination(new Vector2(target.transform.position.x, target.transform.position.y));
+
+        isMoving = true;
+    }
+
     public void StopMoving()
     {
         if (gameObject != null)
@@ -56,12 +64,12 @@ public class AgentMoventMent : MonoBehaviour
         {
             if (gameObject != null)
                 agent.isStopped = false;
-            Debug.Log(gameObject);
+            //Debug.Log(gameObject);
 
         }
         catch
         {
-            Debug.Log(gameObject);
+            //Debug.Log(gameObject);
         }
 
     }

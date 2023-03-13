@@ -9,16 +9,34 @@ namespace Assets.Scripts.Gameplay.Units
         public Defender(int level) : base(level)
         {
         }
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
 
+        }
         public void OnTriggerStay2D(Collider2D other)
         {
+            if (other.CompareTag("attackers") && currentTarget == null)
+            {
+
+                AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
+
+                //currentTarget = other.GetComponent<Attacker>();
+                agent.SetTargetWhenStaying(other.gameObject);
+                currentTarget = other.GetComponent<Attacker>();
+                return;
+            }
+
             // Check if the collider belongs to a Defender unit
 
             if (currentTarget != null && currentTarget.tag == "attackers")
             {
-                AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
-                agent.StopMoving();
-                gameObject.GetComponent<AgentMoventMent>().isMoving = false;
+                if (Vector2.Distance(transform.position, currentTarget.transform.position) <= attackRange)
+                {
+                    AgentMoventMent agent = gameObject.GetComponent<AgentMoventMent>();
+                    if (HitPoints > 0)
+                        agent.StopMoving();
+                    gameObject.GetComponent<AgentMoventMent>().isMoving = false;
+                }
             }
             else
             {
