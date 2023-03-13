@@ -6,17 +6,23 @@ namespace Assets.Scripts.Gameplay.Units
     {
         private Defender currentTarget;
 
+
         public Attacker(int level) : base(level)
         {
         }
 
         private void OnTriggerStay2D(Collider2D other)
         {
+            //check if towwer
+            if (other.CompareTag("tower"))
+            {
+                Tower enemy = other.GetComponent<Tower>();
+                Attack(enemy);
+            }
             // Check if the collider belongs to a Defender unit
-
             if (currentTarget != null && currentTarget.tag == "defenders")
             {
-                //Debug.Log("Ok");
+               // Debug.Log("Ok");
                 AgentMoventMentMonster agent = gameObject.GetComponent<AgentMoventMentMonster>();
                 // trien khai cach 1 : target luon la currentTarget ( Cham thang nao thi duoi theo danh cho chet bang dc )
                 agent.SetTargetPosition(currentTarget.gameObject);
@@ -27,7 +33,7 @@ namespace Assets.Scripts.Gameplay.Units
                 // Đủ tầm đánh mới Stop 
                 if (Vector2.Distance(transform.position, currentTarget.transform.position) <= attackRange)
                 {
-                    //Debug.Log("Da Dung");
+                   // Debug.Log("Da Dung");
                     agent.StopMoving();
                 }
             }
@@ -47,6 +53,7 @@ namespace Assets.Scripts.Gameplay.Units
                     currentTarget = defender;
                     Attack(defender);
                 }
+          
         }
 
         private void OnTriggerExit2D(Collider2D other)
@@ -58,7 +65,7 @@ namespace Assets.Scripts.Gameplay.Units
                 if (defender != null && defender == currentTarget)
                 {
                     // Stop attacking the current target
-                    Debug.Log("Out");
+                   // Debug.Log("Out");
                     // Neu Defender move khoi Attracker thi set lai target den vi tri Defender vua move
                     AgentMoventMentMonster agent = gameObject.GetComponent<AgentMoventMentMonster>();
                     agent.SetTargetPosition(currentTarget.gameObject);
@@ -77,6 +84,11 @@ namespace Assets.Scripts.Gameplay.Units
             {
                 //Debug.Log(target);
                 base.Attack(target);
+            }
+            Tower tower = target as Tower;
+            if(tower != null)
+            {
+                base.Attack(tower);
             }
         }
 
