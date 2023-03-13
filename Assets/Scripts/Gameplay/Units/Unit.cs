@@ -1,5 +1,6 @@
 using Assets.Scripts.Gameplay.Units;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Unit : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public abstract class Unit : MonoBehaviour
     public float SelectedRange { get => selectedRange; set => selectedRange = value; }
     public int Level { get => level; set => level = value; }
 
+    public HealthBar healthBar; 
     public virtual void Initialize(float damageMultiplier, float hitpointMultiplier, float speedMultiplier)
     {
         Damage = BaseDamage * damageMultiplier * Level;
@@ -59,6 +61,8 @@ public abstract class Unit : MonoBehaviour
 
         atkRangeCollider.isTrigger = true;
         selectedRangeCollider.isTrigger = false;
+        // M?i thêm v? HealthBar
+        healthBar.SetMaxHealth(HitPoints);  
     }
 
 
@@ -133,9 +137,11 @@ public abstract class Unit : MonoBehaviour
     }
 
     public virtual void TakeDamage(float amount)
-    {
+    {        
         HitPoints -= amount;
-        //Debug.Log(HitPoints);
+
+        healthBar.SetHealth(HitPoints);
+        Debug.Log(HitPoints);
         if (HitPoints <= 0)
         {
             Die();
