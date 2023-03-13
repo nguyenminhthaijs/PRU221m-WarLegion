@@ -33,11 +33,14 @@ namespace Assets.Scripts.Gameplay.Units
         {
             // Chua den tru thi cu set target va co duoc Access Moving den Tower hay khong ( dang target defender thi k di chuyen den tower )
             // Truong hop den roi thi khong phai set nua
-            if (Vector2.Distance(gameObject.transform.position, tower.transform.position) > 0.1f && isAccessMovingTower == true)
+            if(tower != null)
             {
-                agent.SetDestination(tower.transform.position);
-                Debug.Log("Target tower");
-                isAccessMovingTower = false;
+                if (Vector2.Distance(gameObject.transform.position, tower.transform.position) > 0.1f && isAccessMovingTower == true)
+                {
+                    agent.SetDestination(tower.transform.position);
+                    // Debug.Log("Target tower");
+                    isAccessMovingTower = false;
+                }
             }
         }
         public void SetTargetPosition(GameObject t)
